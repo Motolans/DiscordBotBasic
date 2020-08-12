@@ -9,5 +9,6 @@ module.exports = {
         fs.appendFile('output.txt', `I made output`, err =>{
             if (err) throw err
         })
+        return "hamburger"
     }
 }
