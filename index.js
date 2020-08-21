@@ -19,6 +19,8 @@ client.commands = new Discord.Collection()
 //returns an array of all file names ending with js
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
 
+const Episode = require('./classes/episode.js')
+
 for (const file of commandFiles){
     const command = require(`./commands/${file}`)
 
@@ -27,101 +29,7 @@ for (const file of commandFiles){
     client.commands.set(command.name, command)
 }
 
-class Episode {
-    #title = ``
-    #showName = 'Yang Gang Round Table'
-    #date = ``
-    #stampIndex = -1
-    #subIndex = 0
-    #timeStamps = []
-    #featuring = []
 
-    setTitle(title) {
-        this.#title = title
-    }
-
-    getTitle() {
-        return this.#title
-    }
-
-    getShowName() {
-        return this.#showName
-    }
-
-    setDate(date) {
-        this.#date = date
-    }
-
-    getDate() {
-        return this.#date
-    }
-
-    iterateTimeStamp(){
-        this.#stampIndex++
-    }
-
-    resetTimeStamp(){
-        this.#stampIndex = 0
-    }
-
-    iterateBulletPoint(){
-        this.#subIndex++
-    }
-
-    resetBulletPoint(){
-        this.#subIndex = 0
-    }
-
-    getIndex(){
-        return this.#stampIndex
-    }
-    
-    getSubIndex() {
-        return this.#subIndex
-    }
-
-    addTimeStamp(stamp){
-        this.#timeStamps.push([stamp])
-    }
-
-    addBulletPoint(point){
-        this.#timeStamps[this.#timeStamps.length - 1].push(point)
-    }
-
-    getTimeStampOrBullet(indexOne, indexTwo){
-        return this.#timeStamps[indexOne][indexTwo]
-    }
-
-    showAllTimeStamps(){
-        console.log(this.#timeStamps)
-    }
-
-    getCurrentTimeStamp(){
-        return this.#timeStamps[this.#timeStamps.length - 1][0]
-    }
-
-    getNumberTimeStamps(){
-        return this.#timeStamps.length
-    }
-
-    getNumberBulletPoints(index){
-        return this.#timeStamps[index].length
-    }
-
-    isTimeStampsEmpty(){
-        if (!this.#timeStamps.length){
-            return true
-        } else {
-            return false
-        }
-        
-    }
-
-    constructor(title){
-        this.#title = title
-    }
-
-}
 
 let commandOutput
 let timer
@@ -130,7 +38,7 @@ let seconds = 0
 let minutes = 0
 let hours = 0
 
-let currentEpisode = new Episode('Untitled')
+let currentEpisode = new Episode.Episode('Untitled')
 //console.log(currentEpisode.getTitle)
 
 function tick() {
@@ -217,7 +125,7 @@ client.on('message', message => {
                 seconds = 0
                 minutes = 0
                 hours = 0
-                currentEpisode = new Episode(title)
+                currentEpisode = new Episode.Episode(title)
                 currentEpisode.setDate(date)
                 currentEpisode.resetTimeStamp()
                 console.log(`Successfully set Title: ${currentEpisode.getTitle()} and Date: ${currentEpisode.getDate()}`)
@@ -248,10 +156,16 @@ client.on('message', message => {
                 module.exports.minutes = minutes
                 module.exports.hours = hours
                 module.exports.timerActive = timerActive
+            } else if (command==="credit") {
+                console.log(commandOutput)
+                currentEpisode.addFeaturedGuest(commandOutput)
+                message.channel.send(`${currentEpisode.getTitle()} is now featuring ${currentEpisode.getFeaturedGuestByIndex(currentEpisode.getNumberFeaturedGuests() - 1)}`)
+
             } else if (command==="export"){
                 let fileLocation = __dirname + '/Episode.txt'
                 let subHeading
                 let bulletPoint
+                let guest
                 clearInterval(timer)
                 timerActive = false
                 let fileString = currentEpisode.getShowName() + ' recorded ' + currentEpisode.getDate() + ': ' + currentEpisode.getTitle() + '\n\n'
@@ -269,6 +183,11 @@ client.on('message', message => {
                         fileString = fileString + bulletPoint + '\n'
                         
                     }
+                }
+                fileString = fileString + '\n' + 'Featuring:\n'
+                for (let i = 0; i < currentEpisode.getNumberFeaturedGuests(); i++){
+                    guest = currentEpisode.getFeaturedGuestByIndex(i)
+                    fileString = fileString + guest + '\n'
                 }
                 writeToFile(fileLocation, fileString, true).then(
                     message.channel.send(new Discord.MessageAttachment('./Episode.txt', 'Episode.txt'))
@@ -290,6 +209,7 @@ module.exports.minutes = minutes
 module.exports.hours = hours
 module.exports.timerActive = timerActive
 module.exports.displayTime = displayTime
+module.exports.currentEpisode = currentEpisode
 
 //login to server using token
 client.login(token)

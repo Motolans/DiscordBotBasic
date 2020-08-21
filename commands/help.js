@@ -16,6 +16,8 @@ module.exports = {
         **!bullet** == creates a bullet point under current topic for notes, seo, etc.
         
         **!stop** == stops the timer
+
+        **!credit** [Your Biographical Info] == Adds [Your Biographical Info] to participant list.
         
         **!export** == exports episode to text file
 
