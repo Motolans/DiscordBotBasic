@@ -120,6 +120,8 @@ client.on('message', message => {
         commandOutput = client.commands.get(command).execute(message,args)
         if (commandOutput !== undefined){
             if (command==="new"){
+                console.log(commandOutput)
+                let time = commandOutput.pop()
                 let date = commandOutput.pop()
                 let title = commandOutput.join(' ')
                 seconds = 0
@@ -127,8 +129,9 @@ client.on('message', message => {
                 hours = 0
                 currentEpisode = new Episode.Episode(title)
                 currentEpisode.setDate(date)
+                currentEpisode.setTime(time)
                 currentEpisode.resetTimeStamp()
-                console.log(`Successfully set Title: ${currentEpisode.getTitle()} and Date: ${currentEpisode.getDate()}`)
+                console.log(`Successfully set Title: ${currentEpisode.getTitle()} and Date: ${currentEpisode.getDate()} at Time:${currentEpisode.getTime()}`)
             } else if (command==="title"){
                 currentEpisode.setTitle(commandOutput)
                 console.log(`Changed title to: ${currentEpisode.getTitle()}`)
@@ -168,7 +171,7 @@ client.on('message', message => {
                 let guest
                 clearInterval(timer)
                 timerActive = false
-                let fileString = currentEpisode.getShowName() + ' recorded ' + currentEpisode.getDate() + ': ' + currentEpisode.getTitle() + '\n\n'
+                let fileString = currentEpisode.getShowName() + ' recorded ' + currentEpisode.getDate() + ' at ' + currentEpisode.getTime() + ' : ' + currentEpisode.getTitle() + '\n\n'
                 console.log(fileString)
                 fileString = fileString + 'With discussion of the following:\n'
                 console.log(currentEpisode.getNumberTimeStamps())

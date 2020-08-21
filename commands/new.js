@@ -11,9 +11,11 @@ module.exports = {
         let dd = String(today.getDate()).padStart(2, '0');
         let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
         let yyyy = today.getFullYear();
+        let time = today.toLocaleTimeString()
         today = mm + '/' + dd + '/' + yyyy;
         output.push(today)
-        message.channel.send(`Logged new episode title: ${outMessage} on ${today}`)
+        output.push(time)
+        message.channel.send(`Logged new episode title: ${outMessage} on ${today} at ${time}.`)
         return output
     }
 }

@@ -4,6 +4,7 @@ class Episode {
     #title = ``
     #showName = 'Yang Gang Round Table'
     #date = ``
+    #time = ``
     #stampIndex = -1
     #subIndex = 0
     #timeStamps = []
@@ -27,6 +28,14 @@ class Episode {
 
     getDate() {
         return this.#date
+    }
+
+    setTime(time) {
+        this.#time = time
+    }
+
+    getTime(){
+        return this.#time
     }
 
     iterateTimeStamp(){
