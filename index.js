@@ -43,12 +43,14 @@ let currentEpisode = new Episode.Episode('Untitled')
 
 function tick() {
     seconds++
+    module.exports.seconds = seconds
     console.log(seconds)
     if (seconds === 60){
         seconds = 0
         minutes++
+        module.exports.seconds = seconds
         module.exports.minutes = minutes
-        console.log(displayTime(hours, minutes))
+        console.log(displayTime(hours, minutes, seconds))
         if (minutes === 60){
             minutes = 0
             hours++
@@ -60,6 +62,7 @@ function tick() {
                 seconds = 0
                 minutes = 0
                 hours = 0
+                module.exports.seconds = seconds
                 module.exports.minutes = minutes
                 module.exports.hours = hours
                 module.exports.timerActive = timerActive
@@ -68,14 +71,20 @@ function tick() {
     }
 }
 
-function displayTime(hours, minutes){
+function displayTime(hours, minutes, seconds){
     let formattedMinutes
+    let formattedSeconds
+    if (seconds < 10){
+        formattedSeconds = `0${seconds.toString()}`
+    } else {
+        formattedSeconds = seconds.toString()
+    }
     if (minutes < 10){
         formattedMinutes = `0${minutes.toString()}`
     } else {
         formattedMinutes = minutes.toString()
     }
-    return `${hours.toString()}:${formattedMinutes}`
+    return `0${hours.toString()}:${formattedMinutes}:${formattedSeconds}`
 } 
 
 async function writeToFile(file, payload, newFile){
@@ -127,6 +136,9 @@ client.on('message', message => {
                 seconds = 0
                 minutes = 0
                 hours = 0
+                module.exports.seconds = seconds
+                module.exports.minutes = minutes
+                module.exports.hours = hours
                 currentEpisode = new Episode.Episode(title)
                 currentEpisode.setDate(date)
                 currentEpisode.setTime(time)
@@ -210,6 +222,7 @@ client.on('message', message => {
 
 module.exports.minutes = minutes
 module.exports.hours = hours
+module.exports.seconds = seconds
 module.exports.timerActive = timerActive
 module.exports.displayTime = displayTime
 module.exports.currentEpisode = currentEpisode

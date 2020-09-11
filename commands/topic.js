@@ -16,15 +16,15 @@ module.exports = {
         console.log(timer.minutes)
         if (!timer.timerActive){
             time = timeStamp.shift()
-            let pattern = /^\d{1,2}:\d{2}/
+            let pattern = /^\d{2}:\d{2}:\d{2}/
             let pass = pattern.test(time)
             if (!pass){
             
-                message.channel.send(`Timer is not active. Use '-:--' or '--:--' time stamp as first argument to manually enter time stamp.`)
+                message.channel.send(`Timer is not active. Use '--:--:--' time stamp as first argument to manually enter time stamp.`)
                 return undefined
             }
         } else {
-            time = timer.displayTime(timer.hours, timer.minutes)
+            time = timer.displayTime(timer.hours, timer.minutes, timer.seconds)
             args.unshift(time)
         }
         
