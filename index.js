@@ -87,6 +87,8 @@ function displayTime(hours, minutes, seconds){
     return `0${hours.toString()}:${formattedMinutes}:${formattedSeconds}`
 } 
 
+
+
 async function writeToFile(file, payload, newFile){
     if (newFile){
         fs.writeFile(file, payload, err =>{
