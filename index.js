@@ -230,4 +230,5 @@ module.exports.displayTime = displayTime
 module.exports.currentEpisode = currentEpisode
 
 //login to server using token
-client.login(token)
+//client.login(token)
+client.login(process.env.TOKEN)
