@@ -41,36 +41,6 @@ let hours = 0
 let currentEpisode = new Episode.Episode('Untitled')
 //console.log(currentEpisode.getTitle)
 
-function tick() {
-    seconds++
-    module.exports.seconds = seconds
-    console.log(seconds)
-    if (seconds === 60){
-        seconds = 0
-        minutes++
-        module.exports.seconds = seconds
-        module.exports.minutes = minutes
-        console.log(displayTime(hours, minutes, seconds))
-        if (minutes === 60){
-            minutes = 0
-            hours++
-            module.exports.minutes = minutes
-            module.exports.hours = hours
-            if (hours >= 5){
-                clearInterval(timer)
-                timerActive = false
-                seconds = 0
-                minutes = 0
-                hours = 0
-                module.exports.seconds = seconds
-                module.exports.minutes = minutes
-                module.exports.hours = hours
-                module.exports.timerActive = timerActive
-            }
-        } 
-    }
-}
-
 function displayTime(hours, minutes, seconds){
     let formattedMinutes
     let formattedSeconds
@@ -130,23 +100,7 @@ client.on('message', message => {
         //get command and execute it.
         commandOutput = client.commands.get(command).execute(message,args)
         if (commandOutput !== undefined){
-            if (command==="new"){
-                console.log(commandOutput)
-                let time = commandOutput.pop()
-                let date = commandOutput.pop()
-                let title = commandOutput.join(' ')
-                seconds = 0
-                minutes = 0
-                hours = 0
-                module.exports.seconds = seconds
-                module.exports.minutes = minutes
-                module.exports.hours = hours
-                currentEpisode = new Episode.Episode(title)
-                currentEpisode.setDate(date)
-                currentEpisode.setTime(time)
-                currentEpisode.resetTimeStamp()
-                console.log(`Successfully set Title: ${currentEpisode.getTitle()} and Date: ${currentEpisode.getDate()} at Time:${currentEpisode.getTime()}`)
-            } else if (command==="title"){
+            if (command==="title"){
                 currentEpisode.setTitle(commandOutput)
                 console.log(`Changed title to: ${currentEpisode.getTitle()}`)
             } else if (command==="topic") {
@@ -162,17 +116,6 @@ client.on('message', message => {
                     currentEpisode.showAllTimeStamps()
                 }
                 
-            } else if (command==="start"){
-                console.log("timer")
-                timerActive = true
-                timer = setInterval(tick, 1000)
-                module.exports.timerActive = timerActive
-            } else if (command==="stop"){
-                clearInterval(timer)
-                timerActive = false
-                module.exports.minutes = minutes
-                module.exports.hours = hours
-                module.exports.timerActive = timerActive
             } else if (command==="credit") {
                 console.log(commandOutput)
                 currentEpisode.addFeaturedGuest(commandOutput)
@@ -230,5 +173,5 @@ module.exports.displayTime = displayTime
 module.exports.currentEpisode = currentEpisode
 
 //login to server using token
-//client.login(token)
-client.login(process.env.TOKEN)
+client.login('NzI4MDUzNjE5NDAzOTE1MjY1.Xv0yxQ.0VquJ952nHSauPrhT4zaFuUwbLU')
+//client.login(process.env.TOKEN)
