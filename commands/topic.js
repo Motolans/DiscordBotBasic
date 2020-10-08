@@ -1,4 +1,7 @@
-const timer = require('../index.js')
+const timer = require('../classes/timer.js')
+const episode = require('../index')
+
+
 
 //what if we put all the timer components here? Are they actually needed anywhere else?
 
@@ -28,9 +31,11 @@ module.exports = {
             args.unshift(time)
         }
         
-        let heading = timeStamp.join(' ')
-        message.channel.send(`New topic created at ${time}: ${heading}`)
         let output = args.join(' ')
+        episode.currentEpisode.addTimeStamp(output)
+        episode.currentEpisode.resetBulletPoint()
+        episode.currentEpisode.showAllTimeStamps()
+        message.channel.send(`New topic created at: ${episode.currentEpisode.getCurrentTimeStamp()}`)
         return output
     }
 }

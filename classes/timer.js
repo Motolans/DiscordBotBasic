@@ -53,13 +53,14 @@ function displayTime(hours, minutes, seconds){
 function startTimer(){
     timerActive = true
     timer = setInterval(tick, 1000)
+    module.exports.timerActive = timerActive
    
 }
 
 function pauseTimer(){
     clearInterval(timer)
     timerActive = false
-
+    module.exports.timerActive = timerActive
     
 }
 
@@ -72,6 +73,7 @@ function resetTimer(){
 module.exports.startTimer = startTimer
 module.exports.pauseTimer = pauseTimer
 module.exports.resetTimer = resetTimer
+module.exports.displayTime = displayTime
 module.exports.timer = timer
 module.exports.seconds = seconds
 module.exports.minutes = minutes

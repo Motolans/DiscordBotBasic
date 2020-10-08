@@ -100,14 +100,7 @@ client.on('message', message => {
         //get command and execute it.
         commandOutput = client.commands.get(command).execute(message,args)
         if (commandOutput !== undefined){
-            if (command==="title"){
-                currentEpisode.setTitle(commandOutput)
-                console.log(`Changed title to: ${currentEpisode.getTitle()}`)
-            } else if (command==="topic") {
-                currentEpisode.addTimeStamp(commandOutput)
-                currentEpisode.resetBulletPoint()
-                currentEpisode.showAllTimeStamps()
-            } else if (command==="bullet") {
+            if (command==="bullet") {
                 if (currentEpisode.isTimeStampsEmpty()){
                     message.channel.send(`You must add at least one topic before you can add a bullet point.`)
                 } else {
