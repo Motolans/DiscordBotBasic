@@ -1,3 +1,5 @@
+const episode = require('../index')
+
 module.exports = {
     name: 'bullet',
     description: 'Creates a bullet point!',
@@ -9,6 +11,14 @@ module.exports = {
 
         
         let output = args.join(' ')   
-        return output
+        
+        if (episode.currentEpisode.isTimeStampsEmpty()){
+            message.channel.send(`You must add at least one topic before you can add a bullet point.`)
+        } else {
+            episode.currentEpisode.addBulletPoint(output)
+            message.channel.send(`New bullet point:" ${output} " created under " ${episode.currentEpisode.getCurrentTimeStamp()} "`)
+            episode.currentEpisode.showAllTimeStamps()
+        }
+        return "bullet"
     }
 }
