@@ -17,9 +17,9 @@ module.exports = {
         
         **!stop** == stops the timer
 
-        **!credit** [Your Biographical Info] == Adds [Your Biographical Info] to participant list.
+        **!credit** [Your Biographical Info] == adds [Your Biographical Info] to participant list.
         
-        **!export** == exports episode to text file
+        **!export** == exports episode to text file. Also stops the timer.
 
         **Typical workflow:**
          1. !new
