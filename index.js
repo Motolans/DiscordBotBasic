@@ -64,5 +64,5 @@ client.on('message', message => {
 module.exports.currentEpisode = currentEpisode
 
 //login to server using token
-client.login('NzI4MDUzNjE5NDAzOTE1MjY1.Xv0yxQ.0VquJ952nHSauPrhT4zaFuUwbLU')
-//client.login(process.env.TOKEN)
+//client.login(TOKEN)
+client.login(process.env.TOKEN)
